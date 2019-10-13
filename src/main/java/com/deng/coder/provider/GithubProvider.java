@@ -9,8 +9,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class GithubProvier {
+public class GithubProvider {
 
+
+    /**
+     * 从GitHub中通过携带AccesTokenDTO中的信息获取token
+     * @param accessTokenDTO
+     * @return String access_token
+     */
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
 
@@ -32,6 +38,11 @@ public class GithubProvier {
         return tokenstr.split("=")[1];
     }
 
+    /**
+     * 通过token去GitHub上拿到用户的信息,并封装到GithubUser类中
+     * @param access_token
+     * @return GithubUser
+     */
     public GithubUser getUser(String access_token){
         OkHttpClient client = new OkHttpClient();
 

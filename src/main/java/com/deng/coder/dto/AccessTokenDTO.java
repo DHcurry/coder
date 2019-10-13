@@ -1,6 +1,9 @@
 package com.deng.coder.dto;
 
 public class AccessTokenDTO {
+    /**
+     * 封装了获取access_token的类
+     */
 
     private String client_id;
     private String client_secret;

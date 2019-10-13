@@ -1,6 +1,9 @@
 package com.deng.coder.dto;
 
 public class GithubUser {
+    /**
+     * 封装了从github上获取用户的信息的对象
+     */
     private long id;
     private String name;
     private String bio;
