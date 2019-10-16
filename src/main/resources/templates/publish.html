@@ -32,6 +32,7 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/publish">发布</a> </li>
                     <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
                     <li class="dropdown" th:if="${session.user != null}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span></a>
@@ -51,23 +52,26 @@
     <div class="row">
         <!--文章编辑部分-->
         <div class="col-md-8 pub">
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> <h2>文章发布</h2>
+            <h2><span class="glyphicon glyphicon-star" aria-hidden="true">文章发布</span></h2>
             <hr>
-                <form>
+                <form action="/publish" method="post">
                     <div class="form-group">
                         <label for="exampleInputEmail1"><h3>文章标题</h3></label>
                         <input type="text" name="title" class="form-control" id="exampleInputEmail1" placeholder="请输入标题">
                     </div>
                     <label for="exampleInputEmail1"><h3>文章正文</h3></label>
-                    <textarea name="description" class="form-control article" rows="10" ></textarea>
+                    <textarea name="content" class="form-control article" rows="10" ></textarea>
 
                     <!--发布的标签-->
                     <div class="form-group lab">
                         <label for="lab"><h3>文章标签(以,隔开)</h3></label>
                         <input type="text" name="tag" class="form-control" id="lab" placeholder="请输入标签">
                     </div>
-
-                    <button type="button" class="btn btn-success btn-site">提交</button>
+                    <div class="row">
+                        <button type="submit" class="btn btn-success btn-site col-md-3 col-md-offset-3">提交</button>
+                        <!--/*@thymesVar id="error" type="org.springframework.ui.Model"*/-->
+                        <div class="alert alert-danger col-md-3 col-md-offset-3" role="alert" th:text="${error}" th:if="${session.user == null}">...</div>
+                    </div>
                 </form>
         </div>
 

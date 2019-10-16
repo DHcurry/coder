@@ -54,22 +54,26 @@ public class AuthorizeController {
             // 获取到user,登录成功
             // 获取用户,并将信息封装到数据库中,这个过程就像是写入session,session的目的就是为了验证到底是哪个客户端发来的请求
             // GitHub上获取的信息只是一部分,我们还需要其他的信息,而这个User才是我们用在数据库中的表
-            User store_user = new User();
-            store_user.setAccountId(String.valueOf(user.getId()));
-            store_user.setName(user.getName());
-            String token = UUID.randomUUID().toString();
-            store_user.setToken(token);
-            store_user.setGmtCreate(System.currentTimeMillis());
-            store_user.setGmtModify(System.currentTimeMillis());
-            // 使用mybatis运行插入代码
-            mapper.add(store_user);
-            // 向客户端写入一个cookie,作用就是给客户端发一个银行卡,以便于以后做验证
-            response.addCookie(new Cookie("token",token));
-        }
-        else{
-            // 登录失败,重新登录
-        }
 
+            // 拿到用户第一件事情是去数据库中寻找有没有
+            User store_user = null;
+            store_user = mapper.findById(user.getId());
+            if(store_user == null) {
+                store_user = new User();
+                store_user.setAccountId(String.valueOf(user.getId()));
+                store_user.setName(user.getName());
+                String token = UUID.randomUUID().toString();
+                store_user.setToken(token);
+                store_user.setGmtCreate(System.currentTimeMillis());
+                store_user.setGmtModify(System.currentTimeMillis());
+                store_user.setAvatar(user.getAvatar_url());
+                // 使用mybatis运行插入代码
+                mapper.add(store_user);
+                // 向客户端写入一个cookie,作用就是给客户端发一个银行卡,以便于以后做验证
+                response.addCookie(new Cookie("token", token));
+            }
+            response.addCookie(new Cookie("token",store_user.getToken()));
+        }
         return "redirect:/";
     }
 }

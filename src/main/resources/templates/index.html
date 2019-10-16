@@ -6,6 +6,7 @@
     <script src="js/bootstrap.min.js" type="javascript"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/myuse.css">
 </head>
     <body>
     <!--顶部导航栏-->
@@ -31,6 +32,7 @@
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>
                     <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/publish">发布</a> </li>
                         <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
                         <li class="dropdown" th:if="${session.user != null}">
                             <!--/*@thymesVar id="getName" type="com.deng.coder.models.User"*/-->
@@ -48,5 +50,37 @@
                 </div>
             </div>
         </nav>
+
+    <div class="row">
+        <!--主页文章列表部分-->
+        <div class="col-md-8 pub">
+            <h3><span class="glyphicon glyphicon-star" aria-hidden="true" >发现</span></h3>
+            <hr>
+            <!--/*@thymesVar id="articleArrayList" type="java.util.ArrayList"*/-->
+            <div class="media" th:each="article : ${articleArrayList}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" style="width: 45px" th:src="${article.user.avatar}"  alt="#">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${article.title}"></h4>
+                    <span th:text="${article.content}"></span><br>
+                    <span class="text-desc"><span th:text="${article.commentAccount}"></span>个回复 •
+                        <span th:text="${article.viewAccount}"></span> 次浏览 •
+                        <span></span>时间</span>
+                </div>
+            </div>
+        </div>
+
+        <!--注意事项的说明部分-->
+        <div class="col-md-2 desc" >
+            <h3>热门话题</h3>
+            <hr>
+            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字 <br>
+            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
+            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+        </div>
+    </div>
     </body>
 </html>
