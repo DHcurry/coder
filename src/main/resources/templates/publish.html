@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>coder社区 --内容发布</title>
+    <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js" type="javascript"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -20,7 +21,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Coder</a>
+                <a class="navbar-brand" href="/">Coder</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -34,14 +35,14 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/publish">发布</a> </li>
                     <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
-                    <li class="dropdown" th:if="${session.user != null}">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName()}"><span class="caret"></span></a>
+                    <li class="dropdown open" th:if="${session.user != null}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <span th:text="${session.user.getName()}"></span>
+                            <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">个人信息</a></li>
                             <li><a href="#">消息通知</a></li>
                             <li><a href="#">退出登录</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -70,7 +71,7 @@
                     <div class="row">
                         <button type="submit" class="btn btn-success btn-site col-md-3 col-md-offset-3">提交</button>
                         <!--/*@thymesVar id="error" type="org.springframework.ui.Model"*/-->
-                        <div class="alert alert-danger col-md-3 col-md-offset-3" role="alert" th:text="${error}" th:if="${session.user == null}">...</div>
+                        <div class="alert alert-danger col-md-3 col-md-offset-3" role="alert" th:if="${session.user == null}"><span th:text="${error}"></span></div>
                     </div>
                 </form>
         </div>

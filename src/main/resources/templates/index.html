@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>coder社区</title>
+    <script src="js/jquery-3.4.1.min.js" type="javascript"></script>
     <script src="js/bootstrap.min.js" type="javascript"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -34,16 +35,16 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/publish">发布</a> </li>
                         <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
-                        <li class="dropdown" th:if="${session.user != null}">
+                        <li class="dropdown open" th:if="${session.user != null}">
                             <!--/*@thymesVar id="getName" type="com.deng.coder.models.User"*/-->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true" th:text="${session.user.getName()}"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">个人信息</a></li>
-                                <li><a href="#">消息通知</a></li>
-                                <li><a href="#">退出登录</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                                <span th:text="${session.user.getName()}"></span>
+                                <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">个人信息</a></li>
+                                    <li><a href="#">消息通知</a></li>
+                                    <li><a href="#">退出登录</a></li>
+                                </ul>
                         </li>
                         </li>
                     </ul>
@@ -57,7 +58,7 @@
             <h3><span class="glyphicon glyphicon-star" aria-hidden="true" >发现</span></h3>
             <hr>
             <!--/*@thymesVar id="articleArrayList" type="java.util.ArrayList"*/-->
-            <div class="media" th:each="article : ${articleArrayList}">
+            <div class="media" th:each="article : ${pageShowDTO.articleListDTOS}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object" style="width: 45px" th:src="${article.user.avatar}"  alt="#">
@@ -68,10 +69,38 @@
                     <span th:text="${article.content}"></span><br>
                     <span class="text-desc"><span th:text="${article.commentAccount}"></span>个回复 •
                         <span th:text="${article.viewAccount}"></span> 次浏览 •
-                        <span></span>时间</span>
+                        <span th:text="${#dates.format(article.gmtCreate,'yyyy-MM-dd:HH:mm')}"></span></span>
                 </div>
             </div>
+            <!--分页栏目-->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li >
+                        <a href="/?page=1" aria-label="Previous" th:if="${pageShowDTO.showPrevious}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a src="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${pageShowDTO.pages}" th:class="${pageShowDTO.page == page} ? 'active': '' "><a th:href="@{/(page=${page})}" th:text="${page}"></a></li>
+                    <li>
+                        <a src ="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li >
+                        <a th:src="@{/?page={pageShowDTO.totalCount}}" aria-label="Previous" th:if="${pageShowDTO.showLast}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
+
 
         <!--注意事项的说明部分-->
         <div class="col-md-2 desc" >

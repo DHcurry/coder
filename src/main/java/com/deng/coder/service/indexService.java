@@ -1,6 +1,7 @@
 package com.deng.coder.service;
 
 import com.deng.coder.dto.ArticleListDTO;
+import com.deng.coder.dto.PageShowDTO;
 import com.deng.coder.mapper.ArticleMapper;
 import com.deng.coder.mapper.UserMapper;
 import com.deng.coder.models.Article;
@@ -20,9 +21,12 @@ public class indexService {
     @Autowired
     private UserMapper userMapper;
 
-    public ArrayList<ArticleListDTO> getList() {
-        // 从数据库中获取最新文章列表展示到前台
-        ArrayList<Article> articleArrayList = articleMapper.findByTime();
+    public PageShowDTO getList(int page, int size) {
+        // 创建用于主页展示的对象
+        PageShowDTO pageShowDTO = new PageShowDTO();
+        // 从数据库中获取最新文章列表并分页展示到前台
+        int offset = size*(page - 1);
+        ArrayList<Article> articleArrayList = articleMapper.findByTime(offset,size);
         // 将该数据封装到ArticleListDTO中
         ArrayList<ArticleListDTO> articleListDTOs = new ArrayList<>();
         for(Article article : articleArrayList){
@@ -32,6 +36,10 @@ public class indexService {
             articleListDTO.setUser(user);
             articleListDTOs.add(articleListDTO);
         }
-        return articleListDTOs;
+        // 将该页文章列表放入到该模块中
+        pageShowDTO.setArticleListDTOS(articleListDTOs);
+        // 依据页面page，文章数量，size决定pageShowDTO的属性
+        pageShowDTO.pageManage(page,size,articleMapper.totalCount());
+        return pageShowDTO;
     }
 }

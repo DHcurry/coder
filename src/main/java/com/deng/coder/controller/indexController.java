@@ -1,13 +1,16 @@
 package com.deng.coder.controller;
 
 import com.deng.coder.dto.ArticleListDTO;
+import com.deng.coder.dto.PageShowDTO;
 import com.deng.coder.mapper.UserMapper;
 import com.deng.coder.models.User;
 import com.deng.coder.service.indexService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +26,9 @@ public class indexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1") int page,
+                        @RequestParam(name = "size",defaultValue = "5") int size){
         // 获取request中的cookies
         // 验证登录状态
         Cookie[] cookies  = request.getCookies();
@@ -43,8 +48,8 @@ public class indexController {
             }
         }
         // 调用service中的getList方法获取需要DTO列表
-        ArrayList<ArticleListDTO> articleListDTOS = indexService.getList();
-        model.addAttribute("articleArrayList",articleListDTOS);
+        PageShowDTO pageShowDTO = indexService.getList(page, size);
+        model.addAttribute("pageShowDTO",pageShowDTO);
         return "index";
     }
 
