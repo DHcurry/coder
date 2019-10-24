@@ -15,33 +15,34 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class indexService {
-
+public class profileService {
     @Autowired
     private ArticleMapper articleMapper;
 
     @Autowired
     private UserMapper userMapper;
 
-    public PageShowDTO  getList(int page, int size) {
-        // 创建用于主页展示的对象
+    public PageShowDTO getList(User user,int page, int size) {
+        // 创建用于个人文章的展示的对象
         PageShowDTO pageShowDTO = new PageShowDTO();
         // 从数据库中获取最新文章列表并分页展示到前台
         int offset = size*(page - 1);
         ArticleExample articleExample = new ArticleExample();
-        ArrayList<Article> articleArrayList = (ArrayList<Article>) articleMapper.selectByExampleWithRowbounds(articleExample,new RowBounds(offset,size));
+        articleExample.createCriteria().andWriterIdEqualTo(user.getId());
+        ArrayList<Article> articleArrayList = (ArrayList<Article>) articleMapper.selectByExampleWithRowbounds(articleExample,new RowBounds(page,size));
         // 将该数据封装到ArticleListDTO中
         ArrayList<ArticleListDTO> articleListDTOs = new ArrayList<>();
         for(Article article : articleArrayList){
             ArticleListDTO articleListDTO = new ArticleListDTO();
             BeanUtils.copyProperties(article,articleListDTO);
-            User user = userMapper.findByInnerId(article.getWriterId());
             articleListDTO.setUser(user);
             articleListDTOs.add(articleListDTO);
         }
         // 将该页文章列表放入到该模块中
         pageShowDTO.setArticleListDTOS(articleListDTOs);
         // 依据页面page，文章数量，size决定pageShowDTO的属性
+        // 先创建example
+        // 再写条件：要寻找文章总数
         pageShowDTO.pageManage(page,size,(int)articleMapper.countByExample(articleExample));
         return pageShowDTO;
     }

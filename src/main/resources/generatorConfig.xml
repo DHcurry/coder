@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3" defaultModelType="flat">
+        <!--mybatis官方提供的分页工具-->
+        <!--产生的效果就是多几个分页的方法-->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <!--光看配置也能看到,就是配置数据库连接的,因为mybatis要调数据库才能为这个数据库生成需要的代码-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/coder?serverTimezone=UTC"
+                        userId="root"
+                        password="19970426">
+        </jdbcConnection>
+
+        <!--Java类型强转,这个项目中没有使用-->
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!--model生成器,targetProject表示指定该项目位置,说白了就是指定该源码位置-->
+        <!--里面还有一些其他参数,这些参数的作用可以参考官方文档-->
+        <javaModelGenerator targetPackage="com.deng.coder.models" targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!--指定mapper,这个mapper不是接口,而是通过该文件去实现sql-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src\main\resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!--这就是指定接口位置,通过调该接口实现相关功能-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.deng.coder.mapper"  targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!--这里就是指定要给哪个表生成代码-->
+        <table schema="coder" tableName="article">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table schema="coder" tableName="comment">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+    </context>
+</generatorConfiguration>

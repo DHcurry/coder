@@ -3,54 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>coder社区</title>
-    <script src="js/jquery-3.4.1.min.js" type="javascript"></script>
-    <script src="js/bootstrap.min.js" type="javascript"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/myuse.css">
+    <script src="/static/js/jquery-3.4.1.min.js" type="javascript"></script>
+    <script src="/static/js/bootstrap.min.js" type="javascript"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/css/myuse.css">
 </head>
     <body>
     <!--顶部导航栏-->
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="http://localhost:8080">Coder</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <form class="navbar-form navbar-left">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <button type="submit" class="btn btn-default">搜索</button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="/publish">发布</a> </li>
-                        <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
-                        <li class="dropdown open" th:if="${session.user != null}">
-                            <!--/*@thymesVar id="getName" type="com.deng.coder.models.User"*/-->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
-                                <span th:text="${session.user.getName()}"></span>
-                                <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">个人信息</a></li>
-                                    <li><a href="#">消息通知</a></li>
-                                    <li><a href="#">退出登录</a></li>
-                                </ul>
-                        </li>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+    <div th:include="navigation :: nav"></div>
 
     <div class="row">
         <!--主页文章列表部分-->
@@ -60,13 +21,13 @@
             <!--/*@thymesVar id="articleArrayList" type="java.util.ArrayList"*/-->
             <div class="media" th:each="article : ${pageShowDTO.articleListDTOS}">
                 <div class="media-left">
-                    <a href="#">
+                    <a th:href="@{'/article/'+${article.id}}">
                         <img class="media-object" style="width: 45px" th:src="${article.user.avatar}"  alt="#">
                     </a>
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading" th:text="${article.title}"></h4>
-                    <span th:text="${article.content}"></span><br>
+                    <span th:text="${#strings.abbreviate(article.content,50)}"></span><br>
                     <span class="text-desc"><span th:text="${article.commentAccount}"></span>个回复 •
                         <span th:text="${article.viewAccount}"></span> 次浏览 •
                         <span th:text="${#dates.format(article.gmtCreate,'yyyy-MM-dd:HH:mm')}"></span></span>
@@ -81,13 +42,13 @@
                         </a>
                     </li>
                     <li >
-                        <a src="#" aria-label="Previous">
+                        <a th:href="@{/(page=${pageShowDTO.page-1})}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <li th:each="page : ${pageShowDTO.pages}" th:class="${pageShowDTO.page == page} ? 'active': '' "><a th:href="@{/(page=${page})}" th:text="${page}"></a></li>
                     <li>
-                        <a src ="#" aria-label="Next">
+                        <a th:href="@{/(page=${pageShowDTO.page+1})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

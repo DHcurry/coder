@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>文章详情</title>
+    <script src="/static/js/jquery-3.4.1.min.js" type="javascript"></script>
+    <script src="/static/js/bootstrap.min.js" type="javascript"></script>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/static/css/myuse.css">
+</head>
+<body>
+<!--顶部导航栏-->
+<div th:include="navigation :: nav"></div>
+
+<div class="row">
+    <div class="col-md-8 pub">
+        <h2><span class="glyphicon glyphicon-star" aria-hidden="true" th:text="${article.title}"></span></h2>
+        <span class="text-desc"><span th:text="${article.user.name}"></span>
+                        <span th:text="${article.viewAccount}"></span> 次浏览 •
+                        <span th:text="${#dates.format(article.gmtCreate,'yyyy-MM-dd:HH:mm')}"></span></span>
+        <hr>
+        <div><h3>文章内容</h3>
+            <span th:text="${article.content}"></span>
+        </div>
+        <span class="label label-info" th:text="${article.tag}"></span><br>
+        <label><h3>回复</h3></label>
+        <textarea name="content" class="form-control article" rows="10"></textarea>
+        <!--发布的标签-->
+        <div class="form-group lab">
+            <label for="lab"><h3>文章标签(以,隔开)</h3></label>
+            <input type="text" name="tag" class="form-control" id="lab" placeholder="请输入标签">
+        </div>
+        <div class="row">
+            <button type="submit" class="btn btn-success btn-site col-md-3 col-md-offset-3">提交</button>
+        </div>
+    </div>
+
+
+
+        <!--注意事项的说明部分-->
+        <div class="col-md-2 desc" >
+            <div>
+                <h3>文章作者</h3>
+                <hr>
+                <!--介绍文章作者-->
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object" style="width: 45px" th:src="${article.user.avatar}"  alt="#">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="${article.user.name}"></h4>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

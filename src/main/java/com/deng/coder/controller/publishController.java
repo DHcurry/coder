@@ -4,6 +4,7 @@ import com.deng.coder.mapper.ArticleMapper;
 import com.deng.coder.mapper.UserMapper;
 import com.deng.coder.models.Article;
 import com.deng.coder.models.User;
+import com.deng.coder.service.loginService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 class publishController {
     @Autowired
-    private UserMapper mapper;
+    private loginService loginService;
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -25,25 +26,8 @@ class publishController {
     @RequestMapping(value = "/publish",method = RequestMethod.GET)
     String publish(HttpServletRequest request,
                    Model model) {
-        // 验证登录状态
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = mapper.findByToken(token);
-                }
-                if (user != null) {
-                    request.getSession().setAttribute("user", user);
-                } else {
-                    // 如果为空时，要报错误信息
-                    request.getSession().setAttribute("user", null);
-                    model.addAttribute("error", "用户未登录");
-                }
+        // 验证登录状态已经通过拦截器自动做了
 
-            }
-        }
         return "publish";
     }
 
@@ -52,17 +36,8 @@ class publishController {
                            @Param("content") String content,
                            @Param("tag") String tag,
                            HttpServletRequest request){
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = mapper.findByToken(token);
-                } else
-                    continue;
-            }
-        }
+        // 验证登录
+        User user = (User) request.getSession().getAttribute("user");
 
         Article article = new Article();
         article.setTitle(title);
@@ -71,7 +46,7 @@ class publishController {
         article.setGmtCreate(System.currentTimeMillis());
         article.setGmtModify(System.currentTimeMillis());
         article.setWriterId(user.getId());
-        articleMapper.add(article);
+        articleMapper.insert(article);
         return "publish";
     }
 }
