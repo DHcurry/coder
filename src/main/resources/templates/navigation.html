@@ -32,7 +32,7 @@
                     <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
                     <li class="dropdown open" th:if="${session.user != null}">
                         <!--/*@thymesVar id="getName" type="com.deng.coder.models.User"*/-->
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span th:text="${session.user.getName()}"></span>
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">

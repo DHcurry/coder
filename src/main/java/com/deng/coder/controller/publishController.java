@@ -46,6 +46,9 @@ class publishController {
         article.setGmtCreate(System.currentTimeMillis());
         article.setGmtModify(System.currentTimeMillis());
         article.setWriterId(user.getId());
+        article.setViewAccount(0);
+        article.setLikeAccount(0);
+        article.setCommentAccount(0);
         articleMapper.insert(article);
         return "publish";
     }

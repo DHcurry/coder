@@ -29,12 +29,20 @@ public class indexService {
         // 从数据库中获取最新文章列表并分页展示到前台
         int offset = size*(page - 1);
         ArticleExample articleExample = new ArticleExample();
+        articleExample.setOrderByClause("gmt_create desc");
         ArrayList<Article> articleArrayList = (ArrayList<Article>) articleMapper.selectByExampleWithRowbounds(articleExample,new RowBounds(offset,size));
         // 将该数据封装到ArticleListDTO中
         ArrayList<ArticleListDTO> articleListDTOs = new ArrayList<>();
         for(Article article : articleArrayList){
             ArticleListDTO articleListDTO = new ArticleListDTO();
-            BeanUtils.copyProperties(article,articleListDTO);
+            articleListDTO.setId(article.getId());
+            articleListDTO.setTitle(article.getTitle());
+            articleListDTO.setTag(article.getTag());
+            articleListDTO.setContent(article.getContent());
+            articleListDTO.setGmtCreate(article.getGmtCreate());
+            articleListDTO.setViewAccount(article.getViewAccount());
+            articleListDTO.setLikeAccount(article.getLikeAccount());
+            articleListDTO.setCommentAccount(article.getCommentAccount());
             User user = userMapper.findByInnerId(article.getWriterId());
             articleListDTO.setUser(user);
             articleListDTOs.add(articleListDTO);

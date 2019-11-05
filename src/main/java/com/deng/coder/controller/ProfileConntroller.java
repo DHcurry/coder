@@ -40,6 +40,10 @@ public class ProfileConntroller {
             // 根据用户信息获取该用户文章列表
             PageShowDTO pageShowDTO = profileService.getList(user,page,size);
             model.addAttribute("pageShowDTO",pageShowDTO);
+            request.getSession().setAttribute("chick",chick);
+        }
+        if(chick.equals("notify")){
+            request.getSession().setAttribute("click",chick);
         }
         return "profile";
     }

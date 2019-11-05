@@ -4,6 +4,7 @@ import com.deng.coder.dto.ArticleListDTO;
 import com.deng.coder.exception.CustomErrorcode;
 import com.deng.coder.exception.CustomException;
 import com.deng.coder.exception.ICustomErrorcode;
+import com.deng.coder.mapper.ArticleExtMapper;
 import com.deng.coder.mapper.ArticleMapper;
 import com.deng.coder.mapper.UserMapper;
 import com.deng.coder.models.Article;
@@ -12,6 +13,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 public class ArticleService {
     @Autowired
@@ -19,6 +22,9 @@ public class ArticleService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private ArticleExtMapper articleExtMapper;
 
     /**
      * 向前台展示文章的数据
@@ -31,7 +37,7 @@ public class ArticleService {
         Article article = articleMapper.selectByPrimaryKey(articleId);
         // 如果没有找到文章就要报错
         if(article == null){
-            throw new CustomException(CustomErrorcode.QUESTION_NOT_FOUNT);
+            throw new CustomException(CustomErrorcode.QUESTION_NOT_FOUND);
         }
 
         // 如果文章找到就累积阅读数
@@ -55,5 +61,20 @@ public class ArticleService {
         article.setViewAccount(article.getViewAccount()+1);
         articleMapper.updateByPrimaryKey(article);
         return article;
+    }
+
+    public ArrayList<ArticleListDTO> findRelated(ArticleListDTO article){
+        String regTag = article.getTag();
+        regTag.replace("[\\p{Punct}\\p{Space}]+", "|");
+        article.setTag(regTag);
+
+        ArrayList<Article> articles = articleExtMapper.selectRelated(article);
+        ArrayList<ArticleListDTO> articleListDTOS = null;
+        for(Article tempArticle : articles ){
+            ArticleListDTO articleListDTO = new ArticleListDTO();
+            articleListDTO.setTitle(article.getTitle());
+            articleListDTOS.add(articleListDTO);
+        }
+        return articleListDTOS;
     }
 }

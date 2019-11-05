@@ -1,7 +1,10 @@
 package com.deng.coder.mapper;
 
+import com.deng.coder.dto.ArticleListDTO;
 import com.deng.coder.models.Article;
 import com.deng.coder.models.ArticleExample;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -134,4 +137,6 @@ public interface ArticleMapper {
      * @mbg.generated Wed Oct 23 13:46:40 GMT+08:00 2019
      */
     int updateByPrimaryKey(Article record);
+
+    ArrayList<Article> selectRelated(ArticleListDTO articleListDTO);
 }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>coder社区</title>
-    <script src="/static/js/jquery-3.4.1.min.js" type="javascript"></script>
-    <script src="/static/js/bootstrap.min.js" type="javascript"></script>
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/static/css/myuse.css">
@@ -26,7 +26,9 @@
                     </a>
                 </div>
                 <div class="media-body">
+                    <a th:href="@{'/article/'+${article.id}}">
                     <h4 class="media-heading" th:text="${article.title}"></h4>
+                    </a>
                     <span th:text="${#strings.abbreviate(article.content,50)}"></span><br>
                     <span class="text-desc"><span th:text="${article.commentAccount}"></span>个回复 •
                         <span th:text="${article.viewAccount}"></span> 次浏览 •

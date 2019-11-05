@@ -163,6 +163,9 @@
     from article
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectRelated" parameterType="com.deng.coder.dto.ArticleListDTO" resultMap="BaseResultMap">
+    select * from article where id != #{id} and tag regexp #{tag}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

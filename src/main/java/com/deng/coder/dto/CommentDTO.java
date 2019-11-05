@@ -1,7 +1,7 @@
 package com.deng.coder.dto;
 
 public class CommentDTO {
-    private int commentor;
+    private int type;
     private String content;
     private int articleId;
 
@@ -21,11 +21,12 @@ public class CommentDTO {
         this.articleId = articleId;
     }
 
-    public int getCommentor() {
-        return commentor;
+    public int getType() {
+        return type;
     }
 
-    public void setCommentor(int commentor) {
-        this.commentor = commentor;
+    public void setType(int type) {
+        this.type = type;
     }
+
 }
