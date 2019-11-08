@@ -21,4 +21,5 @@ public interface UserMapper {
 
     @Select("SELECT * FROM user WHERE id=#{id}")
     User findByInnerId(@Param("id") int id);
+
 }

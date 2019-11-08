@@ -55,4 +55,5 @@ public class Notify {
     public void setType(int type) {
         this.type = type;
     }
+
 }

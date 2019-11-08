@@ -63,18 +63,4 @@ public class ArticleService {
         return article;
     }
 
-    public ArrayList<ArticleListDTO> findRelated(ArticleListDTO article){
-        String regTag = article.getTag();
-        regTag.replace("[\\p{Punct}\\p{Space}]+", "|");
-        article.setTag(regTag);
-
-        ArrayList<Article> articles = articleExtMapper.selectRelated(article);
-        ArrayList<ArticleListDTO> articleListDTOS = null;
-        for(Article tempArticle : articles ){
-            ArticleListDTO articleListDTO = new ArticleListDTO();
-            articleListDTO.setTitle(article.getTitle());
-            articleListDTOS.add(articleListDTO);
-        }
-        return articleListDTOS;
-    }
 }

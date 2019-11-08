@@ -38,10 +38,6 @@ public class ArticleController {
         commentShowDTOS = commentService.show(articleId);
         model.addAttribute("commentShowDTOS",commentShowDTOS);
 
-        // 获取相关问题列表
-        ArrayList<ArticleListDTO> articles = null;
-        articles = articleService.findRelated(articleListDTO);
-        model.addAttribute("articleDTO",articles);
         return "article";
     }
 

@@ -28,6 +28,7 @@
                     <button type="submit" class="btn btn-default">搜索</button>
                 </form>
                 <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/profile?chick=notify">通知</a> </li>
                     <li><a href="/publish">发布</a> </li>
                     <li th:if="${session.user == null}"><a href="https://github.com/login/oauth/authorize?client_id=ab0c39aa32fa1a8aa1a5&redirect_uri=http://localhost:8080/callback&state=1">登录</a></li>
                     <li class="dropdown open" th:if="${session.user != null}">

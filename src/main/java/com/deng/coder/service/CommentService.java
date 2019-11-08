@@ -2,13 +2,14 @@ package com.deng.coder.service;
 
 import com.deng.coder.dto.CommentDTO;
 import com.deng.coder.dto.CommentShowDTO;
+import com.deng.coder.enumrate.NotifyEnum;
 import com.deng.coder.exception.CustomErrorcode;
 import com.deng.coder.exception.CustomException;
+import com.deng.coder.mapper.ArticleMapper;
 import com.deng.coder.mapper.CommentMapper;
+import com.deng.coder.mapper.NotifyMapper;
 import com.deng.coder.mapper.UserMapper;
-import com.deng.coder.models.Comment;
-import com.deng.coder.models.CommentExample;
-import com.deng.coder.models.User;
+import com.deng.coder.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +24,17 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ArticleMapper articleMapper;
+
+    @Autowired
+    private NotifyMapper notifyMapper;
+
     /**
      * 向评论表中添加数据保存
      * @param commentDTO
      */
-    public void add(CommentDTO commentDTO){
+    public void add(CommentDTO commentDTO, User user){
         // 判定内容是否为空
         if(commentDTO.getContent().equals("")){
             throw new CustomException(CustomErrorcode.REPEAT_NOT_FOUND);
@@ -36,10 +43,14 @@ public class CommentService {
         comment.setContent(commentDTO.getContent());
         comment.setType((byte) commentDTO.getType());
         comment.setArticleId(commentDTO.getArticleId());
-        comment.setCommentor(13);
+        comment.setCommentor(user.getId());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModify(System.currentTimeMillis());
         commentMapper.insert(comment);
+
+        //添加评论以后要给用户通知
+        addNotify(commentDTO,user);
+
     }
 
     /**
@@ -75,5 +86,18 @@ public class CommentService {
             commentShowDTOS.add(commentShowDTO);
         }
         return commentShowDTOS;
+    }
+    void addNotify(CommentDTO commentDTO,User user){
+        Notify notify = new Notify();
+        notify.setGmtCreate(System.currentTimeMillis());
+        // 根据文章id寻找创作者
+        Article article = articleMapper.selectByPrimaryKey(commentDTO.getArticleId());
+        articleMapper.selectByPrimaryKey(commentDTO.getArticleId());
+        notify.setReceiver(article.getWriterId());
+
+        notify.setWriterId(user.getId());
+        notify.setStatus((byte) 1);
+        notify.setType(NotifyEnum.NOTIFY_COMMENT.getId());
+        notifyMapper.add(notify);
     }
 }

@@ -1,6 +1,7 @@
 package com.deng.coder.controller;
 
 import com.deng.coder.dto.CommentDTO;
+import com.deng.coder.models.User;
 import com.deng.coder.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,8 @@ public class CommentController {
         // 判断当前用户是否登录，没有登录就不显示回复框(这部分已经在前端做了)
         // 判断回复是否为空，为空则报出异常
         // 这个异常判定放在service中
-        commentService.add(commentDTO);
+        User user = (User)request.getSession().getAttribute("user");
+        commentService.add(commentDTO,user);
 
         return "success";
     }
