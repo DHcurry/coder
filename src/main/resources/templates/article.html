@@ -6,9 +6,14 @@
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.js"></script>
     <script src="/static/js/myuse.js"></script>
+    <script src="/static/js/editormd.js"></script>
+    <script src="/static/lib/marked.min.js"></script>
+    <script src="/static/lib/prettify.min.js"></script>
+
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/static/css/myuse.css">
+    <link rel="stylesheet" href="/static/css/editormd.preview.css">
 </head>
 <body>
 <!--顶部导航栏-->
@@ -21,10 +26,22 @@
                         <span th:text="${article.viewAccount}"></span> 次浏览 •
                         <span th:text="${#dates.format(article.gmtCreate,'yyyy-MM-dd:HH:mm')}"></span></span>
         <hr>
-        <div><h3>文章内容</h3>
-            <span th:text="${article.content}"></span>
+
+        <div id="markdown-view"><h3>文章内容</h3>
+            <textarea style="display:none;" th:text="${article.content}"></textarea>
         </div>
+        <script>
+            $(function() {
+            editormd.markdownToHTML("markdown-view", {
+            // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+            // htmlDecode : true,  // Enable / disable HTML tag encode.
+            // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+        });
+    });
+</script>
+
         <span th:each="tag : ${article.tag.split(',')}">
+
             <span class="label label-info" th:text="${tag}"></span>
         </span>
         <hr>

@@ -14,4 +14,8 @@ public enum NotifyEnum {
     public int getId(){
         return this.id;
     }
+
+    public String getTag(){
+        return this.tag;
+    }
 }

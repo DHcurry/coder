@@ -1,0 +1,16 @@
+2019-11-11 09:57:45.310  INFO 7924 --- [main] com.deng.coder.CoderApplication          : Starting CoderApplication on LAPTOP-7URP7KH4 with PID 7924 (D:\document\Develop\coder\target\classes started by curry2 in D:\document\Develop\coder)
+2019-11-11 09:57:45.318  INFO 7924 --- [main] com.deng.coder.CoderApplication          : No active profile set, falling back to default profiles: default
+2019-11-11 09:57:48.085  INFO 7924 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2019-11-11 09:57:48.125  INFO 7924 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-11-11 09:57:48.125  INFO 7924 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.26]
+2019-11-11 09:57:48.376  INFO 7924 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-11-11 09:57:48.377  INFO 7924 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2931 ms
+2019-11-11 09:57:49.319  INFO 7924 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-11 09:57:49.429  INFO 7924 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-11-11 09:57:49.771  INFO 7924 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2019-11-11 09:57:49.780  INFO 7924 --- [main] com.deng.coder.CoderApplication          : Started CoderApplication in 5.354 seconds (JVM running for 7.462)
+2019-11-11 09:57:58.991  INFO 7924 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-11-11 09:57:58.992  INFO 7924 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-11-11 09:57:59.003  INFO 7924 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 11 ms
+2019-11-11 09:57:59.054  INFO 7924 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2019-11-11 09:57:59.344  INFO 7924 --- [http-nio-8080-exec-1] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.

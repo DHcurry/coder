@@ -4,9 +4,18 @@ public class Notify {
     private int id;
     private int writerId;
     private int receiver;
+    private int articleId;
     private long gmtCreate;
     private byte status;
     private int type;
+
+    public int getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(int articleId) {
+        this.articleId = articleId;
+    }
 
     public int getId() {
         return id;

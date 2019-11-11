@@ -95,6 +95,7 @@ public class CommentService {
         articleMapper.selectByPrimaryKey(commentDTO.getArticleId());
         notify.setReceiver(article.getWriterId());
 
+        notify.setArticleId(article.getId());
         notify.setWriterId(user.getId());
         notify.setStatus((byte) 1);
         notify.setType(NotifyEnum.NOTIFY_COMMENT.getId());
